@@ -1,0 +1,31 @@
+<div  *ngIf="sideBar === false" >
+  <div (click)="onClick()" style="float: right;">
+
+    <mat-icon style="height: 50px;width: 50px;font-size: 50px;">menu</mat-icon>
+
+  </div>
+  <div style=" height: 700px;text-align: center;justify-content: center; padding-top: 300px;">
+     <h1>Welcome Screen!!!</h1>
+
+    </div>
+</div>
+<div *ngIf="sideBar === true">
+  <app-side-panel></app-side-panel>
+</div>
+<!--
+<div class="container">
+  <div class="row"  *ngIf="sideBar === false">
+    <div class="col-lg-8" style="height:100%; text-align: center; vertical-align: middle;">
+      Welcome Screen!!!
+    </div>
+    <div class="col-lg-4" style="float: right;">
+      <div (click)="onClick()">
+        <img src="assets/List_menu.png" style="height: 50px; float: right;" />
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="sideBar === true">
+    <app-side-panel></app-side-panel>
+  </div>
+</div> -->

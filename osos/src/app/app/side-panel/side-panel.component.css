@@ -1,0 +1,8 @@
+
+mat-grid-tile{
+background-color: rgb(138, 136, 255);
+}
+.mat-grid-tile  {
+  justify-content: flex-start !important ;
+  align-items: flex-start !important;
+}

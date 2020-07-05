@@ -1,0 +1,187 @@
+
+<mat-grid-list cols="4" rowHeight= "800px" style="padding:0px !important">
+  <mat-grid-tile colspan="3">
+    <div *ngIf="daySelected === false">
+     <h1> Click on Any Day to See Tasks</h1>
+    </div>
+    <div *ngIf="daySelected === true">
+      <!-- Add Task -->
+
+      <mat-form-field  appearance="outline">
+        <mat-label>
+          Add Task
+        </mat-label>
+        <input matInput  [(ngModel)]="newTask" />
+      </mat-form-field>
+
+      <button mat-button color="primary" (click)="addTask(selectedDay)">
+        Submit
+      </button>
+
+      <!-- list task table  -->
+      <table mat-table [dataSource]="taskOfDay" class="mat-elevation-z8">
+        <!-- task column -->
+        <ng-container matColumnDef="task">
+          <th mat-header-cell *matHeaderCellDef style="padding: 15px;">
+            Task
+          </th>
+          <td mat-cell *matCellDef="let tasks" style="padding: 15px;">
+            <span *ngIf="!tasks.completed">{{ tasks.task }}</span>
+
+            <span
+              *ngIf="tasks.completed"
+              style="text-decoration: line-through;"
+            >
+              {{ tasks.task }}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef style="padding: 15px;">
+            Status
+          </th>
+          <td mat-cell *matCellDef="let tasks" style="padding: 15px;">
+            <button
+              mat-mini-fab
+              *ngIf="!tasks.completed"
+              (click)="taskComplete(tasks.id)"
+            >
+              <mat-icon> done </mat-icon>
+            </button>
+            <button
+              mat-mini-fab
+              *ngIf="tasks.completed"
+              (click)="taskUndo(tasks.id)"
+            >
+              <mat-icon> undo </mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef style="padding: 15px;">
+            Delete
+          </th>
+          <td mat-cell *matCellDef="let tasks" style="padding: 15px;">
+            <button
+              mat-mini-fab
+              color="warn"
+              (click)="taskDelete(tasks.id, tasks.day)"
+            >
+              <mat-icon> delete </mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" style="padding: 15px;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" style="padding: 15px;"></tr>
+      </table>
+    </div>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <div>
+      <!-- <div *ngFor="let task of taskList | uniqDay; last as isLast"> -->
+      <div *ngFor="let day of days; last as isLast">
+        <mat-list>
+          <mat-list-item>
+            <p
+              *ngIf="day.day === selectedDay; else elseBlock"
+              style="color:rgb(65, 17, 110);"
+            >
+              <a (click)="showTask(day.day)">Day: {{ day.day }}</a>
+            </p>
+
+            <ng-template #elseBlock style="color: red;">
+              <a (click)="showTask(day.day)">Day: {{ day.day }}</a>
+            </ng-template>
+          </mat-list-item>
+        </mat-list>
+        <mat-divider></mat-divider>
+        <div >
+        <button mat-button color="primary" (click)="addDay(day.day)" *ngIf="isLast">
+          Add
+        </button>
+      </div>
+      </div>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>
+
+<!-- <div class="container">
+  <div class="row">
+    <div class="col-lg-8">
+      <div *ngIf="daySelected === false">
+        Click on day
+      </div>
+      <div *ngIf="daySelected === true">
+        <div>
+          add task
+          <form #taskForm="ngForm" (ngSubmit)="addTask(selectedDay)">
+
+
+            <div class="form-group">
+              <label for="HeadLine">HeadLine</label>
+              <input
+                type="text"
+                class="form-control"
+                id="Task"
+                [(ngModel)]="newTask"
+                name="task"
+                placeholder="Enter Task"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+
+        <div *ngFor="let task of taskOfDay; first as isFirst">
+          <ng-container *ngIf="task.task">
+            <span *ngIf="!task.completed">{{ task.task }}</span>
+
+            <span *ngIf="task.completed" style="text-decoration: line-through;">
+              {{ task.task }}
+            </span>
+
+            <button (click)="taskComplete(task.id)">completed</button>
+            <button (click)="taskDelete(task.id, task.day)">delete</button>
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+
+           <div *ngFor="let day of days; last as isLast">
+        <mat-list>
+          <mat-list-item>
+            <p
+              *ngIf="day.day === selectedDay; else elseBlock"
+              style="color: red;"
+            >
+              <a (click)="showTask(day.day)">Day: {{ day.day }}</a>
+            </p>
+
+            <ng-template #elseBlock style="color: red;">
+              <a (click)="showTask(day.day)">Day: {{ day.day }}</a>
+            </ng-template>
+          </mat-list-item>
+        </mat-list>
+        <span *ngIf="!isLast"> </span>
+        <span *ngIf="isLast">
+          <p
+            *ngIf="day.day === selectedDay; else elseBlock"
+            style="color: red;"
+          >
+            <a (click)="showTask(day.day)">Day: {{ day.day }}</a>
+          </p>
+          <ng-template #elseBlock style="color: red;">
+            <a (click)="showTask(day.day)">Day: {{ day.day }}</a>
+          </ng-template>
+          <button (click)="addDay(day.day)">add</button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div> -->
