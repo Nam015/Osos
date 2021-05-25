@@ -1,13 +1,17 @@
-<div  *ngIf="sideBar === false" >
-  <div (click)="onClick()" style="float: right;">
-
-    <mat-icon style="height: 50px;width: 50px;font-size: 50px;">menu</mat-icon>
-
+<div *ngIf="sideBar === false">
+  <div (click)="onClick()" style="float: right">
+    <mat-icon style="height: 50px; width: 50px; font-size: 50px">menu</mat-icon>
   </div>
-  <div style=" height: 700px;text-align: center;justify-content: center; padding-top: 300px;">
-     <h1>Welcome Screen!!!</h1>
-
-    </div>
+  <div
+    style="
+      height: 700px;
+      text-align: center;
+      justify-content: center;
+      padding-top: 300px;
+    "
+  >
+    <h1>Welcome Screen!!!</h1>
+  </div>
 </div>
 <div *ngIf="sideBar === true">
   <app-side-panel></app-side-panel>
